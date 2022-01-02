@@ -1,4 +1,6 @@
 const mongoose = require("mongoose");
+const User = require("../.../../userBackend/src/model/userModel")
+const Product = require("./productModel")
 const Schema = mongoose.Schema;
 const orderSchema = Schema(
   {

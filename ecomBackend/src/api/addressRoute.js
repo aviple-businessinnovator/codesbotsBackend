@@ -2,6 +2,7 @@ const express = require("express");
 const auth = require("../auth/auth");
 const Address = require("../models/address");
 const route = express.Router();
+
 route.post("/address", auth, async (req, res) => {
   try {
     const { full_name, line_1, line_2, city, state, pincode, phone_no } =
@@ -19,11 +20,14 @@ route.post("/address", auth, async (req, res) => {
     });
     await address.save();
     res.status(201).json({
-      message: "Successfull",
+      success: true,
+      message: "Address saved successfully",
     });
-  } catch (e) {
+  } catch (err) {
     res.status(400).json({
-      message: e,
+      success: false,
+      message: "An unknown error occured",
+      error: err,
     });
   }
 });

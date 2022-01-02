@@ -1,4 +1,5 @@
 const express = require("express");
+const mongoose = require("mongoose");
 const Users = require("../model/userModel");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcrypt");
@@ -25,29 +26,35 @@ route.post("/signup", async (req, res) => {
             const userRegistered = await userRegister.save();
             if(userRegistered ){
                 res.status(201).json({
+                    success: true,
                     message:"User Created",
                     user:userRegistered,
                     token:token
                 });
             } else {
                 res.status(500).json({
+                    success: false,
                     message:"Internal Server Error"
                 })
             }
         } else {
             res.status(208).json({
-                message:"User Already Exist"
+                success: false,
+                message:"User Already Exists"
             })
         }
     } else {
         res.status(403).json({
-            message:"Password Don't Match"
+            success: false,
+            message:"Passwords Don't Match"
         })
     }
 } catch(err) {
     console.log(err);
     res.status(500).json({
-        message: err.message
+        success: false,
+        message: "An unknown error occured",
+        error: err
     })
 }
 });
@@ -56,7 +63,7 @@ route.post("/signup", async (req, res) => {
 route.post("/login", async (req, res) => {
   try{
     const {email,password} = req.body;
-    const checkUser = await Users.findOne({email:email}) || await Users.findOne({mobile: email});;
+    const checkUser = await Users.findOne({email:email})
     if(checkUser){
         const checkPassword = bcrypt.compareSync(password,checkUser.password);
         if(checkPassword){
@@ -69,22 +76,26 @@ route.post("/login", async (req, res) => {
             const token = await checkUser.genAuthToken();
             res.cookie("jwt",token,{httpOnly:true, secure:true, maxAge:24 * 60 * 60 * 1000});
             res.status(200).json({
+                success: true,
                 message:"User Found",
                 token:token
             });
         } else {
             res.status(401).json({
+                success: false,
                 message:"Wrong Email or Password"
             });
         }
     } else {
         res.status(401).json({
+            success: false,
             message:"Wrong Email or Password"
         });
     }
 } catch(err) {
     console.log(err);
     res.status(500).json({
+        success: false,
         message:"Internal Server Error"
     });
 }
@@ -95,9 +106,10 @@ route.post("/login", async (req, res) => {
 
 
 route.post("/logout", (req, res) => {
-    res.cookie("jwt","",{httpOnly:true, maxAge:1});
+    res.clearCookie("jwt");
     res.status(200).json({
-        message:"Log Out Successfully"
+        success: true,
+        message:"Logged Out Successfully"
     });
   });
 

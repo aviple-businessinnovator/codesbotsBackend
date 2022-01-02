@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-
+const User = require("./userModel");
 
 const sectionSchema = new Schema({
     mainTitle:{type: String },
