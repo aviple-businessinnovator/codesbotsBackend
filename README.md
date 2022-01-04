@@ -13,9 +13,7 @@ Here are a few major changes I did to improve the backend today.
 - Use caching and graphql to only serve the data we want.
 - Add routes according to what you want.
 
-## Some suggestions
-
-- Although its only been 2 days since I started my work. I can see no cooperation between the team members. I think we should have proper planned meetings with all the frontend + backend members.
+## Some suggestions: 
 - For example there could be a route on the frontend side where only a particular data is required. But we have to serve the entire data making the servers slow. Using graphql or caching can be a really great way of enhancing speed.
 - Creating and trying to complete the primary pages of site.
 - Increasing the speed of the website (making it load faster eg. by using lazy loding of imgs and a combination of view engines and frontend frameworks big companies prefer this pattern)
