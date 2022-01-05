@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const Schema = mongoose.Schema;
+
 const userSchema = new Schema({
   name: {
     type: String,
@@ -17,10 +18,10 @@ const userSchema = new Schema({
     required: [true, "Please Enter the  Password"],
   },
   mobile:{
-                type : Number,
-                unique :true
-                // required: [true,"Please Enter the Mobile Number"],
-            },
+    type : Number,
+    unique :true
+      // required: [true,"Please Enter the Mobile Number"],
+  },
   date_time: {type: Number, integer: true ,default: Date.now()},
   tokens: [
     {
